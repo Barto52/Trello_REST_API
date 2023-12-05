@@ -1,0 +1,284 @@
+{
+	"info": {
+		"_postman_id": "1783f2e3-5205-40b8-8bbd-86e996302d08",
+		"name": "Trello API BART",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31237054"
+	},
+	"item": [
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "Create a board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a board name\r",
+									"const boardName = pm.variables.replaceIn('{{$randomWord}}')\r",
+									"\r",
+									"//Set generated name to a boardName variable\r",
+									"pm.variables.set('boardName', boardName)\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify name variable from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"boardName\" variable', ()=>{\r",
+									"    const requestBoardName = pm.variables.get('boardName')\r",
+									"    pm.expect(respBody.name).to.eq(requestBoardName)\r",
+									"})\r",
+									"\r",
+									"//Set \"name\" and \"id\" from response to collection variables\r",
+									"pm.collectionVariables.set('boardName',respBody.name)\r",
+									"pm.collectionVariables.set('boardId',respBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}boards/?name={{boardName}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{boardName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a label on a board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a label name\r",
+									"const labelName = pm.variables.replaceIn('{{$randomWord}}')\r",
+									"\r",
+									"//Set generated label name to a variable labelName\r",
+									"pm.collectionVariables.set('labelName', labelName)\r",
+									"\r",
+									"//Choose label color from array of colors\r",
+									"const colorArray = ['green', 'yellow', 'orange', 'red', 'purple', 'blue', 'sky', 'lime', 'pink', 'black' ]\r",
+									"const labelColor = _.sample(colorArray)\r",
+									"\r",
+									"//Set choosen  color to a variable labelColor\r",
+									"pm.collectionVariables.set('labelColor', labelColor)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify label name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"labelName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('labelName'))\r",
+									"})\r",
+									"\r",
+									"//Verify label color from response body\r",
+									"pm.test('Response \"color\" variable should be equal to \"labelColor\"', ()=>{\r",
+									"    pm.expect(respBody.color).to.eq(pm.collectionVariables.get('labelColor'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardId}}/labels?name={{labelName}}&color={{labelColor}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardId}}",
+								"labels"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{labelName}}"
+								},
+								{
+									"key": "color",
+									"value": "{{labelColor}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Get collection variables - boardName and boardId\r",
+									"pm.collectionVariables.get('boardName')\r",
+									"pm.collectionVariables.get('boardId')\r",
+									"\r",
+									"//Catch a response\r",
+									"const respBody = pm.response.json();\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"//Verify if boardId from response is correct\r",
+									"pm.test('Response boardId should be correct', ()=>{\r",
+									"    pm.expect(respBody.id).to.eql(pm.collectionVariables.get('boardId'));\r",
+									"})\r",
+									"\r",
+									"//Verify if boardName from resposne is correct\r",
+									"pm.test('Response boardName should be correct', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('boardName'))\r",
+									"})\r",
+									"\r",
+									"//Important! If we have 2 labels with the same color, in response is only 1 key with this color :)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APIKey",
+			"value": "Your API Key",
+			"type": "string"
+		},
+		{
+			"key": "Token",
+			"value": "Your Token",
+			"type": "string"
+		},
+		{
+			"key": "baseURL",
+			"value": "https://api.trello.com/1/",
+			"type": "string"
+		},
+		{
+			"key": "boardName",
+			"value": ""
+		},
+		{
+			"key": "boardId",
+			"value": ""
+		},
+		{
+			"key": "labelName",
+			"value": ""
+		},
+		{
+			"key": "labelColor",
+			"value": ""
+		}
+	]
+}
