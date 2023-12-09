@@ -224,8 +224,98 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update a board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for an updated board name\r",
+									"const updatedBoardName = pm.variables.replaceIn('{{$randomWord}}')\r",
+									"\r",
+									"//Set generated name boardNameUpdate to variable\r",
+									"pm.collectionVariables.set('updatedBoardName', updatedBoardName)\r",
+									"\r",
+									"//Generate random description for a board\r",
+									"const boardDesc = pm.variables.replaceIn('{{$randomPhrase}}')\r",
+									"\r",
+									"//Set generated description to variable\r",
+									"pm.collectionVariables.set('boardDesc', boardDesc)\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify name variable from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"updatedBoardName\" variable', ()=>{\r",
+									"    const requestBoardName = pm.variables.get('updatedBoardName')\r",
+									"    pm.expect(respBody.name).to.eq(requestBoardName)\r",
+									"})\r",
+									"\r",
+									"//Verify desc variable from response body\r",
+									"pm.test('Response \"desc\" variable should be equal to \"boardDesc\" variable', ()=>{\r",
+									"    const requestBoardDesc = pm.variables.get('boardDesc')\r",
+									"    pm.expect(respBody.desc).to.eq(requestBoardDesc)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updatedBoardName}}\",\r\n    \"desc\": \"{{boardDesc}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "List",
+			"item": []
 		}
 	],
 	"event": [
@@ -278,6 +368,18 @@
 		},
 		{
 			"key": "labelColor",
+			"value": ""
+		},
+		{
+			"key": "boardNameUpdate",
+			"value": ""
+		},
+		{
+			"key": "boardDesc",
+			"value": ""
+		},
+		{
+			"key": "updatedBoardName",
 			"value": ""
 		}
 	]
