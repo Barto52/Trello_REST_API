@@ -92,14 +92,14 @@
 									"//Generate random text for a label name\r",
 									"const labelName = pm.variables.replaceIn('{{$randomWord}}')\r",
 									"\r",
-									"//Set generated label name to a variable labelName\r",
+									"//Set generated label name to a collection variable\r",
 									"pm.collectionVariables.set('labelName', labelName)\r",
 									"\r",
 									"//Choose label color from array of colors\r",
 									"const colorArray = ['green', 'yellow', 'orange', 'red', 'purple', 'blue', 'sky', 'lime', 'pink', 'black' ]\r",
 									"const labelColor = _.sample(colorArray)\r",
 									"\r",
-									"//Set choosen  color to a variable labelColor\r",
+									"//Set choosen color to a collection variable\r",
 									"pm.collectionVariables.set('labelColor', labelColor)"
 								],
 								"type": "text/javascript"
@@ -123,7 +123,7 @@
 									"})\r",
 									"\r",
 									"//Verify label color from response body\r",
-									"pm.test('Response \"color\" variable should be equal to \"labelColor\"', ()=>{\r",
+									"pm.test('Response \"color\" variable should be equal to \"labelColor\" variable', ()=>{\r",
 									"    pm.expect(respBody.color).to.eq(pm.collectionVariables.get('labelColor'))\r",
 									"})"
 								],
@@ -184,13 +184,13 @@
 									"    pm.response.to.have.status(200);\r",
 									"})\r",
 									"\r",
-									"//Verify if boardId from response is correct\r",
-									"pm.test('Response boardId should be correct', ()=>{\r",
+									"//Verify board id from response body\r",
+									"pm.test('Response \"boardId\" variable should be equal to \"boardId\" variable', ()=>{\r",
 									"    pm.expect(respBody.id).to.eql(pm.collectionVariables.get('boardId'));\r",
 									"})\r",
 									"\r",
-									"//Verify if boardName from resposne is correct\r",
-									"pm.test('Response boardName should be correct', ()=>{\r",
+									"//Verify board name from response body\r",
+									"pm.test('Response \"boardName\" variable should be equal to \"boardName\"', ()=>{\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('boardName'))\r",
 									"})\r",
 									"\r",
@@ -235,13 +235,13 @@
 									"//Generate random text for an updated board name\r",
 									"const updatedBoardName = pm.variables.replaceIn('{{$randomWord}}')\r",
 									"\r",
-									"//Set generated name boardNameUpdate to variable\r",
+									"//Set generated name boardNameUpdate to a collection variable\r",
 									"pm.collectionVariables.set('updatedBoardName', updatedBoardName)\r",
 									"\r",
 									"//Generate random description for a board\r",
 									"const boardDesc = pm.variables.replaceIn('{{$randomPhrase}}')\r",
 									"\r",
-									"//Set generated description to variable\r",
+									"//Set generated description to a collection variable\r",
 									"pm.collectionVariables.set('boardDesc', boardDesc)\r",
 									""
 								],
@@ -260,13 +260,13 @@
 									"    pm.response.to.have.status(200)\r",
 									"})\r",
 									"\r",
-									"//Verify name variable from response body\r",
+									"//Verify name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"updatedBoardName\" variable', ()=>{\r",
 									"    const requestBoardName = pm.variables.get('updatedBoardName')\r",
 									"    pm.expect(respBody.name).to.eq(requestBoardName)\r",
 									"})\r",
 									"\r",
-									"//Verify desc variable from response body\r",
+									"//Verify descritpion from response body\r",
 									"pm.test('Response \"desc\" variable should be equal to \"boardDesc\" variable', ()=>{\r",
 									"    const requestBoardDesc = pm.variables.get('boardDesc')\r",
 									"    pm.expect(respBody.desc).to.eq(requestBoardDesc)\r",
@@ -315,7 +315,631 @@
 		},
 		{
 			"name": "List",
-			"item": []
+			"item": [
+				{
+					"name": "Create a List on a Board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a list name\r",
+									"const listName = pm.variables.replaceIn('{{$randomLoremSentence}}')\r",
+									"\r",
+									"//Set generated listName to a collection variable\r",
+									"pm.collectionVariables.set('listName', listName)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify list name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"listName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('listName'))\r",
+									"})\r",
+									"\r",
+									"// Set \"id\" from response to collection variables\r",
+									"pm.collectionVariables.set('listId', respBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardId}}/lists?name={{listName}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardId}}",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{listName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify list name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"listName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('listName'))\r",
+									"})\r",
+									"\r",
+									"//Verify list id from response body\r",
+									"pm.test('Response \"id\" variable should be equal to \"listId\" variable', ()=>{\r",
+									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('listId'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}lists/{{listId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}lists"
+							],
+							"path": [
+								"{{listId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for an updated list name\r",
+									"const updatedListName = pm.variables.replaceIn('{{$randomLoremSentence}}')\r",
+									"\r",
+									"//Set generated name updatedListName to a collection variable\r",
+									"pm.collectionVariables.set('updatedListName', updatedListName)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify list name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"updatedListName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('updatedListName'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updatedListName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}lists/{{listId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}lists"
+							],
+							"path": [
+								"{{listId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Card",
+			"item": [
+				{
+					"name": "Create a new card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a card name\r",
+									"const cardName = pm.variables.replaceIn('{{$randomLoremSentence}}')\r",
+									"\r",
+									"//Set generated name cardName to a collection variable\r",
+									"pm.collectionVariables.set('cardName', cardName)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify list name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"cardName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('cardName'))\r",
+									"})\r",
+									"\r",
+									"//Set \"id\" from response body to cardId variable\r",
+									"pm.collectionVariables.set('cardId', respBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{cardName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}cards?idList={{listId}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listId}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Label on a Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a card label name\r",
+									"const cardLabelName = pm.variables.replaceIn('{{$randomWord}}')\r",
+									"\r",
+									"//Set generated label name to a collection variable\r",
+									"pm.collectionVariables.set('cardLabelName', cardLabelName)\r",
+									"\r",
+									"//Choose label color from array of colors\r",
+									"const colorArray = ['green', 'yellow', 'orange', 'red', 'purple', 'blue', 'sky', 'lime', 'pink', 'black' ]\r",
+									"const cardLabelColor = _.sample(colorArray)\r",
+									"\r",
+									"//Set choosen color to a collection variable\r",
+									"pm.collectionVariables.set('cardLabelColor', cardLabelColor)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Veryfiy board id from response body\r",
+									"pm.test('Response \"idBoard\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idBoard).to.eq(pm.collectionVariables.get('boardId'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy lable name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"cardLabelName\"', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('cardLabelName'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy lable color from response body\r",
+									"pm.test('Response \"color\" variable should be equal to \"card\"', ()=>{\r",
+									"    pm.expect(respBody.color).to.eq(pm.collectionVariables.get('cardLabelColor'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}/labels?color={{cardLabelColor}}&name={{cardLabelName}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}",
+								"labels"
+							],
+							"query": [
+								{
+									"key": "color",
+									"value": "{{cardLabelColor}}"
+								},
+								{
+									"key": "name",
+									"value": "{{cardLabelName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Veryfiy id from response body\r",
+									"pm.test('Response \"id\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('cardId'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"cardName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('cardName'))\r",
+									"})\r",
+									"\r",
+									"//Verify closed status from response body\r",
+									"pm.test('Response \"closed\" variable should be equal to \"cardName\"', ()=>{\r",
+									"    pm.expect(respBody.closed).to.eq(false)\r",
+									"})\r",
+									"\r",
+									"//Verify label name on a card\r",
+									"pm.test('Response \"label[0].name\" variable should be equal to \"cardLabelName\" variable', ()=>{\r",
+									"    pm.expect(respBody.labels[0].name).to.eq(pm.collectionVariables.get('cardLabelName'))\r",
+									"})\r",
+									"\r",
+									"//Verify label color on a car\r",
+									"pm.test('Response \"label[0].color\" variable should be equal to \"cardLabelColor\" variable', ()=>{\r",
+									"    pm.expect(respBody.labels[0].color).to.eq(pm.collectionVariables.get('cardLabelColor'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new comment to a Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for comment section\r",
+									"const commentText = pm.variables.replaceIn('{{$randomLoremParagraph}}')\r",
+									"\r",
+									"//Set generated text to a collection variable\r",
+									"pm.collectionVariables.set('commentText', commentText)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Veryfiy board id from response body\r",
+									"pm.test('Response \"board.id\" variable should be equal to \"boardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.board.id).to.eq(pm.collectionVariables.get('boardId'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy board name from response body\r",
+									"pm.test('Response \"board.name\" variable should be equal to \"boardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.board.name).to.eq(pm.collectionVariables.get('boardName'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy list id from response body\r",
+									"pm.test('Response \"list.id\" variable should be equal to \"listId\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.list.id).to.eq(pm.collectionVariables.get('listId'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy list name from response body\r",
+									"pm.test('Response \"list.name\" variable should be equal to \"listName\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.list.name).to.eq(pm.collectionVariables.get('listName'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy card id from response body\r",
+									"pm.test('Response \"card.id\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.card.id).to.eq(pm.collectionVariables.get('cardId'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy list name from response body\r",
+									"pm.test('Response \"card.name\" variable should be equal to \"cardName\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.card.name).to.eq(pm.collectionVariables.get('cardName'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}/actions/comments?text={{commentText}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}",
+								"actions",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "{{commentText}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for an updated list name\r",
+									"const updatedCardName = pm.variables.replaceIn('{{$randomLoremSentence}}')\r",
+									"\r",
+									"//Set generated name updatedCardName to a collection variable\r",
+									"pm.collectionVariables.set('updatedCardName', updatedCardName)\r",
+									"\r",
+									"//Generate random text for a description\r",
+									"const updatedCardDesc = pm.variables.replaceIn('{{$randomLoremParagraph}}')\r",
+									"\r",
+									"//Set generated text to a collection variable\r",
+									"pm.collectionVariables.set('updatedCardDesc', updatedCardDesc)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Veryfiy card name from response body\r",
+									"pm.test('Response \"board.id\" variable should be equal to \"updatedCardName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('updatedCardName'))\r",
+									"})\r",
+									"\r",
+									"//Veryfiy card desc from response body\r",
+									"pm.test('Response \"desc\" variable should be equal to \"updatedCardDesc\" variable', ()=>{\r",
+									"    pm.expect(respBody.desc).to.eq(pm.collectionVariables.get('updatedCardDesc'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}?name={{updatedCardName}}&desc={{updatedCardDesc}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{updatedCardName}}"
+								},
+								{
+									"key": "desc",
+									"value": "{{updatedCardDesc}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -380,6 +1004,50 @@
 		},
 		{
 			"key": "updatedBoardName",
+			"value": ""
+		},
+		{
+			"key": "listName",
+			"value": ""
+		},
+		{
+			"key": "listId",
+			"value": ""
+		},
+		{
+			"key": "updatedListName",
+			"value": ""
+		},
+		{
+			"key": "cardName",
+			"value": ""
+		},
+		{
+			"key": "cardId",
+			"value": ""
+		},
+		{
+			"key": "cardColor",
+			"value": ""
+		},
+		{
+			"key": "cardLabelName",
+			"value": ""
+		},
+		{
+			"key": "cardLabelColor",
+			"value": ""
+		},
+		{
+			"key": "commentText",
+			"value": ""
+		},
+		{
+			"key": "updatedCardName",
+			"value": ""
+		},
+		{
+			"key": "updatedCardDesc",
 			"value": ""
 		}
 	]
