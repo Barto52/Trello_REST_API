@@ -10,7 +10,7 @@
 			"name": "Board",
 			"item": [
 				{
-					"name": "Create a board",
+					"name": "Create a Board",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -83,7 +83,7 @@
 					"response": []
 				},
 				{
-					"name": "Create a label on a board",
+					"name": "Create a Label on a Board",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -166,7 +166,7 @@
 					"response": []
 				},
 				{
-					"name": "Get a board",
+					"name": "Get a Board",
 					"event": [
 						{
 							"listen": "test",
@@ -226,7 +226,7 @@
 					"response": []
 				},
 				{
-					"name": "Update a board",
+					"name": "Update a Board",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -387,7 +387,7 @@
 					"response": []
 				},
 				{
-					"name": "Get a list",
+					"name": "Get a List",
 					"event": [
 						{
 							"listen": "test",
@@ -441,7 +441,7 @@
 					"response": []
 				},
 				{
-					"name": "Update a list",
+					"name": "Update a List",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -517,7 +517,7 @@
 			"name": "Card",
 			"item": [
 				{
-					"name": "Create a new card",
+					"name": "Create a new Card",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -684,7 +684,7 @@
 					"response": []
 				},
 				{
-					"name": "Get a card",
+					"name": "Get a Card",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -795,8 +795,8 @@
 									"})\r",
 									"\r",
 									"//Veryfiy board name from response body\r",
-									"pm.test('Response \"board.name\" variable should be equal to \"boardId\" variable', ()=>{\r",
-									"    pm.expect(respBody.data.board.name).to.eq(pm.collectionVariables.get('boardName'))\r",
+									"pm.test('Response \"board.name\" variable should be equal to \"updatedBoardName\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.board.name).to.eq(pm.collectionVariables.get('updatedBoardName'))\r",
 									"})\r",
 									"\r",
 									"//Veryfiy list id from response body\r",
@@ -805,8 +805,8 @@
 									"})\r",
 									"\r",
 									"//Veryfiy list name from response body\r",
-									"pm.test('Response \"list.name\" variable should be equal to \"listName\" variable', ()=>{\r",
-									"    pm.expect(respBody.data.list.name).to.eq(pm.collectionVariables.get('listName'))\r",
+									"pm.test('Response \"list.name\" variable should be equal to \"updatedListName\" variable', ()=>{\r",
+									"    pm.expect(respBody.data.list.name).to.eq(pm.collectionVariables.get('updatedListName'))\r",
 									"})\r",
 									"\r",
 									"//Veryfiy card id from response body\r",
@@ -940,6 +940,715 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Checklist",
+			"item": [
+				{
+					"name": "Create a Checklist",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a checklist name\r",
+									"const checklistName = pm.variables.replaceIn('{{$randomLoremSentence}}')\r",
+									"\r",
+									"//Set generated name to a collection variable\r",
+									"pm.collectionVariables.set('checklistName', checklistName)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify checklist name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"checklistName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('checklistName'))\r",
+									"\r",
+									"})\r",
+									"\r",
+									"//Verify board id from response body\r",
+									"pm.test('Response \"idBoard\" variable should be equal to \"boardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idBoard).to.eq(pm.collectionVariables.get('boardId'))\r",
+									"})\r",
+									"\r",
+									"//Verify card id from response body\r",
+									"pm.test('Response \"idCard\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idCard).to.eq(pm.collectionVariables.get('cardId'))\r",
+									"})\r",
+									"\r",
+									"//Set \"id\" from response body to checklistId variable\r",
+									"pm.collectionVariables.set('checklistId', respBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}checklists?idCard={{cardId}}&name={{checklistName}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"query": [
+								{
+									"key": "idCard",
+									"value": "{{cardId}}"
+								},
+								{
+									"key": "name",
+									"value": "{{checklistName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify checklist id from response body\r",
+									"pm.test('Response \"id\" variable should be equal to \"checklistId\" variable', ()=>{\r",
+									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('checklistId'))\r",
+									"\r",
+									"})\r",
+									"\r",
+									"//Verify checklist name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"checklistName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('checklistName'))\r",
+									"\r",
+									"})\r",
+									"\r",
+									"//Verify card id from response body\r",
+									"pm.test('Response \"idCard\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idCard).to.eq(pm.collectionVariables.get('cardId'))\r",
+									"})\r",
+									"\r",
+									"//Verify board id from response body\r",
+									"pm.test('Response \"idBoard\" variable should be equal to \"boardId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idBoard).to.eq(pm.collectionVariables.get('boardId'))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Checkitem on Checklist",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate random text for a checkitem name\r",
+									"const checkItemName = pm.variables.replaceIn('{{$randomLoremSentence}}')\r",
+									"\r",
+									"//Set generated name to a collection variable\r",
+									"pm.collectionVariables.set('checkItemName', checkItemName)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify checkitem name from response body\r",
+									"pm.test('Response \"name\" variable should be equal to \"checkItemName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('checkItemName'))\r",
+									"})\r",
+									"\r",
+									"//Verify checklist id from response body\r",
+									"pm.test('Response \"idChecklist\" variable should be equal to \"checklistId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idChecklist).to.eq(pm.collectionVariables.get('checklistId'))\r",
+									"})\r",
+									"\r",
+									"//Set \"id\" from response body to checklistId variable\r",
+									"pm.collectionVariables.set('checkItemId', respBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}/checkItems?name={{checkItemName}}&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}",
+								"checkItems"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{checkItemName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a checkItem on a Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify if checklist is complete\r",
+									"pm.test('Response \"state\"variable should be equal to \"complete\" ', ()=>{\r",
+									"    pm.expect(respBody.state).to.eq('complete')\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}/checkItem/{{checkItemId}}?state=complete&key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}",
+								"checkItem",
+								"{{checkItemId}}"
+							],
+							"query": [
+								{
+									"key": "state",
+									"value": "complete"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Checkitems on a Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Catch a response\r",
+									"const respBody = pm.response.json()\r",
+									"\r",
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"//Verify checkItem id from response\r",
+									"pm.test('Response \"id\" variable should be equal to \"checkItemId\" variable', ()=>{\r",
+									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('checkItemId'))\r",
+									"})\r",
+									"\r",
+									"//Verify checkItem name from response\r",
+									"pm.test('Response \"name\" variable should be equal to \"checkItemName\" variable', ()=>{\r",
+									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('checkItemName'))\r",
+									"})\r",
+									"\r",
+									"//Verify if checklist is complete\r",
+									"pm.test('Response \"state\"variable should be equal to \"complete\" ', ()=>{\r",
+									"    pm.expect(respBody.state).to.eq('complete')\r",
+									"})\r",
+									"\r",
+									"//Verify checklist id from response\r",
+									"pm.test('Response \"idChecklist\" variable should be equal to \"checklistId\" variable', ()=>{\r",
+									"    pm.expect(respBody.idChecklist).to.eq(pm.collectionVariables.get('checklistId'))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}/checkItems/{{checkItemId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}",
+								"checkItems",
+								"{{checkItemId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "Delete Checkitem from Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}/checkItems/{{checkItemId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}",
+								"checkItems",
+								"{{checkItemId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Checkitems on a Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 404', ()=>{\r",
+									"    pm.response.to.have.status(404)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}/checkItems/{{checkItemId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}",
+								"checkItems",
+								"{{checkItemId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 404', ()=>{\r",
+									"    pm.response.to.have.status(404)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}checklists/{{checklistId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}checklists"
+							],
+							"path": [
+								"{{checklistId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 404', ()=>{\r",
+									"    pm.response.to.have.status(404)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}cards/{{cardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}cards"
+							],
+							"path": [
+								"{{cardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 200', ()=>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify status code \r",
+									"pm.test('Response status should be 404', () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}boards/{{boardId}}?key={{APIKey}}&token={{Token}}",
+							"host": [
+								"{{baseURL}}boards"
+							],
+							"path": [
+								"{{boardId}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -1048,6 +1757,26 @@
 		},
 		{
 			"key": "updatedCardDesc",
+			"value": ""
+		},
+		{
+			"key": "checklistName",
+			"value": ""
+		},
+		{
+			"key": "checklistId",
+			"value": ""
+		},
+		{
+			"key": "checkItemName",
+			"value": ""
+		},
+		{
+			"key": "checkItemId",
+			"value": ""
+		},
+		{
+			"key": "dueToCheckItem",
 			"value": ""
 		}
 	]
