@@ -71,7 +71,7 @@ Test scope is based on <a href="https://developer.atlassian.com/cloud/trello/res
 #### <a name="four"> 📂 Collection importing into Postman</a>
 1. Download [my collection](#https://github.com/Barto52/Trello_REST_API/blob/main/Trello%20API%20BART.postman_collection.json).
 2. Go to Postman app. On the left sidebar click on "Import" button.
-3. Drag and dropp downloaded collection or select it from Postman app.
+3. Drag and drop downloaded collection or select it from Postman app.
 4. Now you are ready to use it!
 
 #### <a name="five"> ▶️ Running collection and tests</a>
