@@ -4,30 +4,49 @@
 The attached collection checks the most important Trello functionalities using dynamic variables. <br>
 More information below👇</p>
 
-## 🔎Test scope
+## 🗃️ Test scope
 Test scope is based on <a href="https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-group-actions" target="_blank">Trello REST API documentation:</a>
-- **Board**
+
+<details>
+  <summary>Board</summary>
+  
   - Create a Board
   - Create a Label on a Board
   - Get a Board
   - Update a Board
-- **List**
+</details>
+
+<details>
+  <summary>List</summary>
+  
   - Create a List on a Board
   - Get a List
   - Update a List
-- **Card**
+</details>
+  
+<details>
+  <summary>Card</summary>
+  
   - Create a new Card
   - Create a new Label on a Card
   - Get a Card
   - Add a new comment to a Card
   - Update a Card
-- **Checklist**
+</details>
+
+<details>
+  <summary>Checklist</summary>
+  
   - Create a Checklist
   - Get a Checklist
   - Create a Checkitem on a Checklist
   - Update a CheckItem on a Card
   - Get Checkitems on a Checklist
-- **Delete**
+</details>
+    
+<details>
+  <summary>Delete</summary>
+  
   - Delete a Checkitem from Checklist
   - Get Checkitems on a Checklist
   - Delete a Checklist
@@ -36,20 +55,20 @@ Test scope is based on <a href="https://developer.atlassian.com/cloud/trello/res
   - Get a Card
   - Delete a Board
   - Get a Board
+</details>
  
 ## 🚀 How to run the collection?
-:one: [Postman installation](#one)
+1️. [Postman installation](#one)
+
+2️. [Creating a Trello account](#two)
+
+3️. [Authentication](#three)
   
-:two: [Creating a Trello account](#two)
+4️. [Collection importing into Postman](#four)
   
-:three: [Authentication](#three)
-  
-:four: [Collection importing into Postman](#four)
-  
-:five: [Running collection and tests](#five)
+5️. [Running collection and tests](#five)
   
 #### <a name="one"> ⚙️ Postman installation</a>
-
 1. Go to the [Postman Official Website](https://www.postman.com/). Click on a logo of your operating system.
 2. Download the installation file.
 3. Run the installer and follow the instructions.
@@ -62,7 +81,7 @@ Test scope is based on <a href="https://developer.atlassian.com/cloud/trello/res
 
 #### <a name="three"> 🔑 Authentication</a>
 1. Log in to your Trello account.
-2. Go to [Trellod developer API key page](#https://trello.com/app-key) and click on "Go to the Power-Up Admin Portal".
+2. Go to [Trello developer API key page](#https://trello.com/app-key) and click on "Go to the Power-Up Admin Portal".
 3. Click on "New" button and enter the required data.
 4. Click on "Generate new API key" - your API key will be displayed on the page. Save it for later use.
 5. Click on "Token" link and allow to access to your account.
