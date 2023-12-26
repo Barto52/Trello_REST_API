@@ -1,7 +1,7 @@
 # Trello REST API with Postman and CI/CD configuration (Newman + Jenkins)
 ## ℹ️ About the repository
-<p align="jusify">This repository was created for the purpose of picturing my knowledge of Postman and also basics of CI/CD.<br>
-The attached collection thoroughly examines key Trello functionalities, leveraging dynamic variables. <br>
+<p align="jusify">This repository was created for the purpose of picturing my knowledge of Postman and also CI/CD basics.<br>
+The attached collection thoroughly examines Trello key functionalities, leveraging dynamic variables. <br>
 Further details below👇</p>
 
 ## 🗃️ Test scope
