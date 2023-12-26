@@ -31,17 +31,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
 									"    pm.response.to.have.status(200)\r",
 									"})\r",
 									"\r",
-									"//Verify name variable from response body\r",
+									"//Verify name variable from response body \r",
 									"pm.test('Response \"name\" variable should be equal to \"boardName\" variable', ()=>{\r",
 									"    const requestBoardName = pm.variables.get('boardName')\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(requestBoardName)\r",
 									"})\r",
 									"\r",
@@ -109,8 +110,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -119,6 +120,7 @@
 									"\r",
 									"//Verify label name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"labelName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('labelName'))\r",
 									"})\r",
 									"\r",
@@ -176,8 +178,8 @@
 									"pm.collectionVariables.get('boardName')\r",
 									"pm.collectionVariables.get('boardId')\r",
 									"\r",
-									"//Catch a response\r",
-									"const respBody = pm.response.json();\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', () => {\r",
@@ -186,6 +188,7 @@
 									"\r",
 									"//Verify board id from response body\r",
 									"pm.test('Response \"boardId\" variable should be equal to \"boardId\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.id).to.eql(pm.collectionVariables.get('boardId'));\r",
 									"})\r",
 									"\r",
@@ -252,8 +255,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -262,8 +265,8 @@
 									"\r",
 									"//Verify name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"updatedBoardName\" variable', ()=>{\r",
-									"    const requestBoardName = pm.variables.get('updatedBoardName')\r",
-									"    pm.expect(respBody.name).to.eq(requestBoardName)\r",
+									"    respBody = pm.response.json()\r",
+									"    pm.expect(respBody.name).to.eq(pm.variables.get('updatedBoardName'))\r",
 									"})\r",
 									"\r",
 									"//Verify descritpion from response body\r",
@@ -336,8 +339,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -346,6 +349,7 @@
 									"\r",
 									"//Verify list name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"listName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('listName'))\r",
 									"})\r",
 									"\r",
@@ -393,8 +397,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -403,6 +407,7 @@
 									"\r",
 									"//Verify list name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"listName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('listName'))\r",
 									"})\r",
 									"\r",
@@ -460,8 +465,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -470,6 +475,7 @@
 									"\r",
 									"//Verify list name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"updatedListName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('updatedListName'))\r",
 									"})"
 								],
@@ -536,8 +542,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -546,6 +552,7 @@
 									"\r",
 									"//Verify list name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"cardName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('cardName'))\r",
 									"})\r",
 									"\r",
@@ -618,8 +625,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -628,6 +635,7 @@
 									"\r",
 									"//Veryfiy board id from response body\r",
 									"pm.test('Response \"idBoard\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.idBoard).to.eq(pm.collectionVariables.get('boardId'))\r",
 									"})\r",
 									"\r",
@@ -699,8 +707,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -709,6 +717,7 @@
 									"\r",
 									"//Veryfiy id from response body\r",
 									"pm.test('Response \"id\" variable should be equal to \"cardId\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('cardId'))\r",
 									"})\r",
 									"\r",
@@ -781,8 +790,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -791,6 +800,7 @@
 									"\r",
 									"//Veryfiy board id from response body\r",
 									"pm.test('Response \"board.id\" variable should be equal to \"boardId\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.data.board.id).to.eq(pm.collectionVariables.get('boardId'))\r",
 									"})\r",
 									"\r",
@@ -880,8 +890,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -890,6 +900,7 @@
 									"\r",
 									"//Veryfiy card name from response body\r",
 									"pm.test('Response \"board.id\" variable should be equal to \"updatedCardName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('updatedCardName'))\r",
 									"})\r",
 									"\r",
@@ -964,8 +975,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -974,6 +985,7 @@
 									"\r",
 									"//Verify checklist name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"checklistName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('checklistName'))\r",
 									"\r",
 									"})\r",
@@ -1036,8 +1048,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -1046,6 +1058,7 @@
 									"\r",
 									"//Verify checklist id from response body\r",
 									"pm.test('Response \"id\" variable should be equal to \"checklistId\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('checklistId'))\r",
 									"\r",
 									"})\r",
@@ -1115,8 +1128,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -1125,6 +1138,7 @@
 									"\r",
 									"//Verify checkitem name from response body\r",
 									"pm.test('Response \"name\" variable should be equal to \"checkItemName\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.name).to.eq(pm.collectionVariables.get('checkItemName'))\r",
 									"})\r",
 									"\r",
@@ -1186,8 +1200,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -1196,6 +1210,7 @@
 									"\r",
 									"//Verify if checklist is complete\r",
 									"pm.test('Response \"state\"variable should be equal to \"complete\" ', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.state).to.eq('complete')\r",
 									"})"
 								],
@@ -1241,8 +1256,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//Catch a response\r",
-									"const respBody = pm.response.json()\r",
+									"//Declare respBody\r",
+									"let respBody\r",
 									"\r",
 									"//Verify status code \r",
 									"pm.test('Response status should be 200', ()=>{\r",
@@ -1251,6 +1266,7 @@
 									"\r",
 									"//Verify checkItem id from response\r",
 									"pm.test('Response \"id\" variable should be equal to \"checkItemId\" variable', ()=>{\r",
+									"    respBody = pm.response.json()\r",
 									"    pm.expect(respBody.id).to.eq(pm.collectionVariables.get('checkItemId'))\r",
 									"})\r",
 									"\r",
@@ -1701,10 +1717,6 @@
 		},
 		{
 			"key": "labelColor",
-			"value": ""
-		},
-		{
-			"key": "boardNameUpdate",
 			"value": ""
 		},
 		{
