@@ -1,6 +1,6 @@
-# Trello REST API with Postman and CI/CD configuration (Newman + Jenkins)
+# Trello REST API with Postman
 ## ℹ️ About the repository
-<p align="justify">This repository was created for the purpose of demonstrating my knowledge of Postman and also CI/CD basics.<br>
+<p align="justify">This repository was created for the purpose of demonstrating my knowledge of Postman.<br>
 The attached collection thoroughly explores Trello key functionalities, utilizing dynamic variables. <br>
 Further details below👇</p>
 
@@ -100,32 +100,3 @@ Test scope is based on <a href="https://developer.atlassian.com/cloud/trello/res
 4. Now it is time to run the collection! Select "Trello API Bart" and click on "Run". Alternatively right click on collection and choose "Run collection".
 5. Ensure all requests are selected. If not, select "Select All" and click on "Run Trello API BART".
 6. If all requests pass (green color) - CONGRATS!🎊 Expected output below: <br> ![image](https://github.com/Barto52/Trello_REST_API/assets/131921596/8038dd3c-c918-4add-a67e-09072b6360b1)
-
-## 🔁CI/CD configuration with Newman and Jenkins
-<p align="justify">The Postman collection can also be run in a CI/CD pipeline. Newman and Jenkins were used for this purpose.
-Scroll down for more details 👇</p>
-
-## 🚀How to install Newman nad Jenkins and prepare the pipeline?
-1️. [Newman installation](#newman-installation)
-
-2️. [Docker installation](#docker-installation)
-
-3️. [Using Newman in Jenkins](#newman-in-jenkins)
-
-#### <a name="newman-installation"> ⚙️ Newman installation</a>
-1. Install Node.js on your computer. Go to [Node.js website](#https://nodejs.org/en) and download LTS version. Run installation file.
-2. Open terminal window and type `node --version`. Installed version should be displayed on your screen.
-3.After installing Node.js execut the following command: `npm install -g newman`.
-
-#### <a name="docker-installation"> ⚙️ Docker installation</a>
-1. Go to the [Docker Official Website](#https://www.docker.com/) and click on "Get Started". Download the installation file and execute it.
-2. To verify correctness of the Docker installation go to terminal window and type `docker run hello-world`. The message "Hello from Docker!" should be displayed in your terminal window, just like below: <img width="616" alt="image" src="https://github.com/Barto52/Trello_REST_API/assets/131921596/62a0fe5c-af7a-43e0-b7d0-bf4e187b5309">
-3. Copy this command `docker run -p 8080:8080 -p 50000:50000 --restart=on-failure -v jenkins_home:/var/jenkins_home --env JAVA_OPTS="-Dfile.encoding=UTF8" vdespa/jenkins-postman` into your terminal window and hit enter. This command launches a Docker containter based on the Jenkins image with additional support for Postman, configured to handle Jenkins along with options setting ports, restart handling, data volume and other params.
-4. Scroll down and you should see generated password. Copy it.
-5. Open your browser and go to [localhost:8080](#http://localhost:8080/). Paste your passoword and go to Jenkins.
-6. Click on "Install suggested plugins", installation may take a few minutes.
-7. After that create first admin user - fill all brackets and hit "Save and Continue".
-8. Jenkins is ready to use! 
-
-#### <a name="newman-in-jenkins"> ▶️ Using Newman in Jenkins</a>
-1. Firstly configure a Jenkins secret. Go to [Jenkins dashboard](#http://localhost:8080), hit "Manage Jenkins", then "Manage Credentials", then "System" and finally hit "Global credentials (unrestricted)". 
